@@ -148,7 +148,7 @@ sub user_check_errors($) {
     push(@errors, "Your username is invalid, please change it.");
     push(@errors, @name_errors);
   }
-  if ($DCBSettings::config->{minshare} > $user->{'join_share'}) {
+  if ($DCBSettings::config->{minshare} > $user->{'connect_share'}) {
     push(@errors, "Your share is currently under the minimum share.");
   }
   if (!$DCBSettings::config->{allow_external} && $user->{'ip'} !~ 127.0.0.1) {
