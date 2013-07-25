@@ -66,6 +66,13 @@ sub main {
         },
         {
           param    => "message",
+          message  => "You are being banned by $user->{'name'} until $unbantime because: " . $banmessage,
+          user     => $victim->{name},
+          touser   => '',
+          type     => 2,
+        },
+        {
+          param    => "message",
           message  => $botmessage,
           user     => $victim->{name},
           touser   => '',
