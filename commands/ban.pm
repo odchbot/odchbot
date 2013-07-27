@@ -38,92 +38,98 @@ sub schema {
 sub main {
   my $command = shift;
   my $user = shift;
+  my $botmessage = '';
+  my @return = ();
   my @chatarray = split(/\s+/, shift);
-  my $victim = @chatarray ? $DCBUser::userlist->{shift(@chatarray)} : '';
-  my $bantime = @chatarray ? shift(@chatarray) : '';
-  if ($bantime =~ /^\d+([m|h|d|w|y])?$/) {
-    $bantime = ban_calculate_ban_time($bantime);
+  if (!@chatarray) {
+    $botmessage = "You must specify parameters with this command!";
   }
   else {
-    $bantime = DCBSettings::config_get('tban_default_ban_time');
-  }
-  my $unbantime = DCBCommon::common_timestamp_time(time() + $bantime);
-  my $banmessage = @chatarray ? join(' ', @chatarray) : DCBSettings::config_get('tban_default_ban_message');
-  my $botmessage = "$user->{'name'} is banning $victim->{'name'} until $unbantime because: $banmessage";
-
-  my @return = ();
-  # Check that the victim is actually a user
-  if ($victim) {
-    # If the user is lower permission than the victim, make the kick fail
-    if ($user->{'permission'} >= $victim->{'permission'}) {
-      @return = (
-        {
-          param    => "message",
-          message  => "You are being banned by $user->{'name'} until $unbantime because: " . $banmessage,
-          user     => $victim->{name},
-          touser   => '',
-          type     => 8,
-        },
-        {
-          param    => "message",
-          message  => "You are being banned by $user->{'name'} until $unbantime because: " . $banmessage,
-          user     => $victim->{name},
-          touser   => '',
-          type     => 2,
-        },
-        {
-          param    => "message",
-          message  => $botmessage,
-          user     => $victim->{name},
-          touser   => '',
-          type     => 4,
-        },
-        {
-          param    => "log",
-          action   => "ban",
-          arg      => $botmessage,
-          user     => $user,
-        },
-      );
-      if (DCBSettings::config_get('ban_handler') =~ 'bot') {
-        # We handle the ban in the bot rather than allow ODCH to handle
-        my $expire = $bantime == '-1' ? '-1' : time() + $bantime;
-        my %fields = (
-          'op_uid' => $user->{uid},
-          'uid' => $victim->{uid},
-          'time' => time(),
-          'expire' => $expire,
-          'message' => $banmessage,
-        );
-        DCBDatabase::db_insert('ban', \%fields);
-      }
-      else {
-        my @nickban = (
-          {
-            param    => "action",
-            user     => $victim->{name},
-            action   => 'nickban',
-            arg      => $bantime,
-          },
-        );
-        push(@return, @nickban);
-      }
-        my @kick = (
-          {
-            param    => "action",
-            user     => $victim->{name},
-            action   => 'kick',
-          },
-        );
-        push(@return, @kick);
-      return(@return);
+    my $victim = @chatarray ? $DCBUser::userlist->{shift(@chatarray)} : '';
+    my $bantime = @chatarray ? shift(@chatarray) : '';
+    if ($bantime =~ /^\d+([m|h|d|w|y])?$/) {
+      $bantime = ban_calculate_ban_time($bantime);
     }
     else {
-      $botmessage = DCBSettings::config_get('no_perms');
+      $bantime = DCBSettings::config_get('tban_default_ban_time');
     }
-  }
-  else {
-    $botmessage = "User does not exist or is offline";
+    my $unbantime = DCBCommon::common_timestamp_time(time() + $bantime);
+    my $banmessage = @chatarray ? join(' ', @chatarray) : DCBSettings::config_get('tban_default_ban_message');
+    $botmessage = "$user->{'name'} is banning $victim->{'name'} until $unbantime because: $banmessage";
+
+    # Check that the victim is actually a user
+    if ($victim) {
+      # If the user is lower permission than the victim, make the kick fail
+      if ($user->{'permission'} >= $victim->{'permission'}) {
+        @return = (
+          {
+            param    => "message",
+            message  => "You are being banned by $user->{'name'} until $unbantime because: " . $banmessage,
+            user     => $victim->{name},
+            touser   => '',
+            type     => 8,
+          },
+          {
+            param    => "message",
+            message  => "You are being banned by $user->{'name'} until $unbantime because: " . $banmessage,
+            user     => $victim->{name},
+            touser   => '',
+            type     => 2,
+          },
+          {
+            param    => "message",
+            message  => $botmessage,
+            user     => $victim->{name},
+            touser   => '',
+            type     => 4,
+          },
+          {
+            param    => "log",
+            action   => "ban",
+            arg      => $botmessage,
+            user     => $user,
+          },
+        );
+        if (DCBSettings::config_get('ban_handler') =~ 'bot') {
+          # We handle the ban in the bot rather than allow ODCH to handle
+          my $expire = $bantime == '-1' ? '-1' : time() + $bantime;
+          my %fields = (
+            'op_uid' => $user->{uid},
+            'uid' => $victim->{uid},
+            'time' => time(),
+            'expire' => $expire,
+            'message' => $banmessage,
+          );
+          DCBDatabase::db_insert('ban', \%fields);
+        }
+        else {
+          my @nickban = (
+            {
+              param    => "action",
+              user     => $victim->{name},
+              action   => 'nickban',
+              arg      => $bantime,
+            },
+          );
+          push(@return, @nickban);
+        }
+          my @kick = (
+            {
+              param    => "action",
+              user     => $victim->{name},
+              action   => 'kick',
+            },
+          );
+        push(@return, @kick);
+        return(@return);
+      }
+      else {
+        $botmessage = DCBSettings::config_get('no_perms');
+      }
+    }
+    else {
+      $botmessage = "User does not exist or is offline";
+    }
   }
 
   @return = (
@@ -166,6 +172,13 @@ sub prelogin {
               user     => $user->{name},
               touser   => '',
               type     => 8,
+            },
+            {
+              param    => "message",
+              message  => $banline,
+              user     => $user->{name},
+              touser   => '',
+              type     => 2,
             },
             {
               param    => "action",
