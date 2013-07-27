@@ -47,7 +47,7 @@ sub main {
   else {
     my $victim = @chatarray ? $DCBUser::userlist->{shift(@chatarray)} : '';
     my $bantime = @chatarray ? shift(@chatarray) : '';
-    if ($bantime =~ /^\d+([m|h|d|w|y])?$/) {
+    if ($bantime =~ /^\d+([s|m|h|d|w|y])?$/) {
       $bantime = ban_calculate_ban_time($bantime);
     }
     else {
