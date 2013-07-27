@@ -147,18 +147,23 @@ sub odch_login() {
   my @errors = ();
   @errors = user_check_errors($user);
 
+  if (@errors) {
+    # TODO put odch_respond here
+    odch_sendmessage($user->{name}, "", 2, @errors);
+    odch_odch('kick', $user->{name});
+    return;
+  }
+
+  # If prelogin returns something, a command has declared the user unfit to log in.
+  my @prelogin = odch_hooks('prelogin', $user);
+  if (@prelogin) {
+    return;
+  }
+
   my $tag = "$DCBSettings::config->{bottag} V:$DCBSettings::config->{version},M:P,H:1/3/3,S:7";
   odch_sendmessage($user->{name}, "", 11, "\$MyINFO \$ALL $DCBSettings::config->{botname} " .
     "$DCBSettings::config->{botdescription}<$tag>\$\$$DCBSettings::config->{botspeed}>" .
     "\$$DCBSettings::config->{botemail}\$$DCBSettings::config->{botshare}\$");
-
-  odch_hooks('prelogin', $user);
-
-  if (@errors) {
-    odch_sendmessage($user->{name}, "", 2, @errors);
-    #put odch_respond here
-    odch_odch('kick', $user->{name});
-  }
 
   # The user has been accepted so save their details to the db and welcome them.
   user_connect($user);
