@@ -31,7 +31,7 @@ sub main {
       my %perm = %{$permissions};
       my $perm = 'UNKNOWN';
       foreach my $val (keys %perm) {
-        if ($perm{$val} == $user->{permission}) {
+        if ($perm{$val} == $target->{permission}) {
           $perm = $val;
         }
       }
