@@ -7,6 +7,15 @@ use FindBin;
 use lib "$FindBin::Bin/..";
 use DCBSettings;
 
+sub schema {
+  my %schema = (
+    config => {
+      russianroulette_barrel => 6,
+    },
+  );
+  return \%schema;
+}
+
 sub main {
   my $command = shift;
   my $user = shift;

@@ -35,7 +35,6 @@ config:
   no_perms: You do not have adequate permissions to use this function!
   opgreeting: Did it just get hotter in here? Welcome back,
   opgreetingon: 1
-  russianroulette_barrel: 4
   timezone: Australia/Canberra
   topic: Welcome to ODCH!
   usergreeting: Welcome
