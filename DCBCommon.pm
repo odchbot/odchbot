@@ -115,7 +115,7 @@ sub commands_install_command {
 sub commands_uninstall_command {
   my $command = shift;
   # Ensure the command isn't a required command
-  my $schema = commands_run_command($command->{name}, 'schema');
+  my $schema = commands_run_command($command, 'schema');
   if ($schema->{schema}) {
     DCBDatabase::db_drop_table($schema);
   }
@@ -124,6 +124,7 @@ sub commands_uninstall_command {
       DCBSettings::config_delete($key, $schema->{config}->{$key});
     }
   }
+  return 1;
 }
 
 sub commands_load_commands {
@@ -160,9 +161,9 @@ sub commands_unload_commands {
   unless ($command->{required}) {
     my %where = (name => $command->{name});
     # TODO transaction here?
+    commands_uninstall_command($command);
     DCBDatabase::db_delete('registry', \%where);
     registry_remove($command);
-    commands_uninstall_command($command);
     return 1;
   }
   return 0;
