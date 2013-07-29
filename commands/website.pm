@@ -10,7 +10,6 @@ use DCBSettings;
 sub main {
   my $command = shift;
   my $user = shift;
-  my $chat = shift;
   
   my @return = ();
   
@@ -22,8 +21,8 @@ sub main {
     {
       param => "message",
       message => $message,
-      type => 4,
-      user => '',
+      type => 2,
+      user => $user->{name},
       touser => '',
     },
   );
