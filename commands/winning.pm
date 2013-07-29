@@ -33,8 +33,9 @@ sub main {
   my %winners = ();
   foreach my $this_user (keys %{$DCBUser::userlist}) {
     if ($DCBUser::userlist->{$this_user}->{'join_time'}) {
-      if ($DCBUser::userlist->{$this_user}->{'connect_time'} > $DCBUser::userlist->{$this_user}->{'disconnect_time'}) {
+      if ($DCBUser::userlist->{$this_user}->{'connect_time'} > $DCBUser::userlist->{$this_user}->{'disconnect_time'} && $limit) {
         $winners{$this_user} = $DCBUser::userlist->{$this_user}->{'connect_time'};
+        $limit--;
       }
     }
   }
