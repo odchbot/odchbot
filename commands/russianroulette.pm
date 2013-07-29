@@ -15,7 +15,7 @@ sub main {
   my $message = "";
   my $num_barrels = 6;
 
-  my $barrel = DCBSettings::get_config('russianroulette_barrel');
+  my $barrel = DCBSettings::config_get('russianroulette_barrel');
 
   if ($barrel == 0) {
     $message = "BANG\!";
