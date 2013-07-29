@@ -12,6 +12,7 @@ sub main {
   my $user = shift;
 
   my @return = ();
+  my $message = "";
   my $num_barrels = 6;
 
   my $barrel = DCBSettings::get_config('russianroulette_barrel');
