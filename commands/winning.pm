@@ -33,15 +33,17 @@ sub main {
   my %winners = ();
   foreach my $this_user (keys %{$DCBUser::userlist}) {
     if ($DCBUser::userlist->{$this_user}->{'join_time'}) {
-      if ($DCBUser::userlist->{$this_user}->{'connect_time'} > $DCBUser::userlist->{$this_user}->{'disconnect_time'} && $limit) {
+      if ($DCBUser::userlist->{$this_user}->{'connect_time'} > $DCBUser::userlist->{$this_user}->{'disconnect_time'}) {
         $winners{$this_user} = $DCBUser::userlist->{$this_user}->{'connect_time'};
-        $limit--;
       }
     }
   }
   my $winners = "List of longest logged in users:\n";
   foreach my $key (sort {$winners{$a} cmp $winners{$b}} keys %winners){
-    $winners .= "$key: " . DCBCommon::common_timestamp_duration($winners{$key}) . "\n";
+    if ($limit) {
+      $winners .= "$key: " . DCBCommon::common_timestamp_duration($winners{$key}) . "\n";
+      $limit--;
+    }
   }
   @return = (
     {
