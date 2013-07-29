@@ -7,4 +7,5 @@ permissions:
  - AUTHENTICATED
  - OPERATOR
  - ADMINISTRATOR
-
+alias:
+ - rr
