@@ -5,3 +5,5 @@ system: 1
 permissions:
  - OPERATOR
  - ADMINISTRATOR
+alias:
+ - mm
