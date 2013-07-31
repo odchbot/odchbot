@@ -8,16 +8,16 @@ use lib "$FindBin::Bin/..";
 sub main {
   my $command = shift;
   my $user = shift;
-
+  my $message = "Testing bitches"
   my @return = ();
 
   @return = (
     {
       param    => "message",
-      message  => "Placeholder for help command",
+      message  => $message,
       user     => '',
       touser   => '',
-      type     => 4,
+      type     => 2,
     },
   );
   return @return;
