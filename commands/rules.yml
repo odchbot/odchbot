@@ -1,0 +1,8 @@
+name: rules
+description: Gives the link to the current Chaotic Neutral rules
+required: 0
+permissions:
+ - ANONYMOUS
+ - AUTHENTICATED
+ - OPERATOR
+ - ADMINISTRATOR
