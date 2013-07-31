@@ -10,7 +10,6 @@ use DCBSettings;
 
 use LWP::Simple;
 use XML::Simple;
-use Data::Dumper;
 
 sub schema {
   my %schema = (
