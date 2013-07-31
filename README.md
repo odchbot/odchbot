@@ -1,5 +1,14 @@
+ODCHBot
+=======
+
+ODCHBot is a bot written in Perl to provide additional features for [OpenDCHub](http://opendchub.sourceforge.net/).
+The core bot provides an easily extensible framework for creating commands that range from simple text response to more complicated HTTP Requests, data storage and calculation.
+
+Recommended version of OpenDCHub to use ODCHBot with is **0.7.16**
+
 Prerequisites
 =============
+
 Core
 ----
 The core code requires the following perl modules:
@@ -22,8 +31,6 @@ The core code requires the following perl modules:
 - YAML
 - YAML::AppConfig
 - YAML::Syck
-
-* * *
 
 Commands
 --------
@@ -48,9 +55,7 @@ The commands packaged with the bot require the following perl modules:
 - Text::SimpleTable::AutoWidth
 - XML::Simple
 
-* * *
-
-Installing Modules
+Installing Perl Modules
 ------------------
 The simplest way to install all of these is to use cpanimus:
 
@@ -80,12 +85,8 @@ Copy ```odchbot.yml.example``` to ```odchbot.yml``` and fill in settings in the 
 On first usage the bot will initialise a commands registry. Any commands stored in the commands directory will get loaded into the bot's memory whereupon they may be executed by users with adequate permissions.
 
 
-* * *
-
 Usage
 -----
-
-* * *
 
 Permissions
 -----------
@@ -99,15 +100,15 @@ This number corresponds to the ```odch::type_get_types``` command that can be ex
 
 These tie in exactly with permissions stated in the command YAML files meaning users of a permission not included in the YAML file will not be able to execute the command provided by the file.
 
-* * *
-
 Commands
 --------
 The commands system with odchbot allows a plugable and hookable framework where new commands may be added or removed in order to fulfil needs. All commands should be stored in the 'commands' directory and consist of a YAML file for configuration and a pm file containing the command code.
 
+* * *
+
 Configuration
-=============
-The YAML file should be called [commandname].yml and be structured as follows (taken from tell.yml:
+-------------
+The YAML file that holds all configuration for the command should be called [commandname].yml and be structured as follows (taken from tell.yml):
 
     name: tell
     description: Allows users to leave messages for other users. Usage: -tell <user> <message>
@@ -130,9 +131,8 @@ Permssions follows the core permission system with only those users who have mat
 NB the command will still run on hooks and affect users despite their permission level. It is only direct calling of the command in chat that is affected by the permission configuration.
 hooks defines which hooks the commands are triggered on in conjunction with the main command call. hooks should be an array with a new hook on each line, in this case tell will be triggered by postlogin and line hooks.
 
-
 Command file
-============
+------------
 The file containing the command code should be named <commandname>.pm
 The command file should, at the very least define a ```main{}``` subroutine. This is the subroutine that will fire when a user executes the command via chat. Any hooks that are defined will allow the subroutine named after the hook to be called. For example, in the tell command there are subroutines for main, postlogin and line.
 main {} is executed when a user calls -tell from chat
@@ -145,8 +145,8 @@ Access is granted to the following globals when modules are loaded and these may
  - ```DCBSettings::config``` - hub/bot config
  - ```DCBDatabase::dbh``` - db handle (likely unused)
  - ```DCBCommon::registry``` - commands registry
- - ```DCBUser::userlist``` - all users online
- - ```DCBStats::stats``` - hub stats
+ - ```DCBUser::userlist``` - all users
+ - ```DCBCommon::COMMON``` - Miscellaneous global for all modules to use
  
 When processing all commands, there are three variables provided for use by the command.
 
@@ -256,14 +256,16 @@ Variables provided are the same as any standard hook or command:
 
  A typical alter hook could be to disable any commands if they start with the letter 't':
 
+ It is **imperative** that any subroutine in the \[command\].pm file returns _something_. Whether this is a structured ```@return``` array or just an empty Perl ```return;``` does not matter. However without returning there is the chance that it could prevent execution of subsequent functionality.
 
-Database Table Installation
+
+Database Table/Config Installation
 ---------------------------
 Commands are also able to provide their own table structure to be created in the database on command install by invoking the `schema{}` subroutine. Additionally, the creation of configuration variables is possible within the same subroutine.
 By creating, and returning, an associative array of 'schema' and/or 'config', the bot will create tables and variables that are ready for the command to use.
 Any table declarations should exist in the schema array and should be keyed by table name. Within that key should be an array of fields with field descriptions keyed by the table column name.
 There is no restriction on the number of tables/fields that can be created in this way.
-+Configuration may be created by entering in key/value elements underneath the config element. A standard that should ideally be kept is to prefix the key of any configuration 
+Configuration may be created by entering in key/value elements underneath the config element. A standard that should ideally be kept is to prefix the key of any configuration
 
 
     sub schema {
