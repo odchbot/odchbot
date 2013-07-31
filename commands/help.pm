@@ -8,7 +8,7 @@ use lib "$FindBin::Bin/..";
 sub main {
   my $command = shift;
   my $user = shift;
-  my $message = "Hub keeps kicking you? Try refreshing your IP /n Open Connection settings from the file menu /n Choose 'Direct connection' /n Click 'Get IP address' then OK /n Now reconnect to the hub."; 
+  my $message = "Can't download? Try refreshing your IP /n Open Connection settings from the file menu /n Choose 'Direct connection' /n Click 'Get IP address' then OK /n Now reconnect to the hub."; 
   my @return = ();
 
   @return = (
