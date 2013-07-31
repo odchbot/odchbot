@@ -19,11 +19,11 @@ sub schema {
 sub main {
   my $command = shift;
   my $user = shift;
-  my $chat = shift;
 
   my $website = DCBSettings::config_get('website');
+  my $hubname = DCBSettings::config_get('hubname');
   my $rules = DCBSettings::config_get('web_rules');
-  my $message = 'Link to the Chaotic Neutral karma page: ' . $website . $rules;
+  my $message = 'Link to current ' . $hubname . ' rules: ' . $website . $rules;
 
   my @return = (
     {
