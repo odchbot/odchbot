@@ -6,12 +6,23 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin/..";
 
+sub schema {
+  my %schema = (
+    config => {
+      web_karma => '/karma',
+    },
+  );
+  return \%schema;
+}
+
 sub main {
   my $command = shift;
   my $user = shift;
-  my $chat = shift;
+
   my $website = DCBSettings::config_get('website');
-  my $message = "Link to the Chaotic Neutral karma page: " . $website . "/karma";		
+  my $hubname = DCBSettings::config_get('hubname');
+  my $karma = DCBSettings::config_get('web_karma');
+  my $message = 'Link to current ' . $hubname . ' karma: ' . $website . $karma;
 
   my @return = ();
   @return = (
