@@ -28,7 +28,7 @@ sub main {
   my $user = shift;
   my $message = "Weather:\n";
 
-  if (time() - DCBSettings::config_get('weather_last_called') > DCBSettings::config_get('weather_cache_time')) {
+  if (!$DCBCommon::COMMON->{'weather'} || time() - DCBSettings::config_get('weather_last_called') > DCBSettings::config_get('weather_cache_time')) {
     my $weather_feed = DCBSettings::config_get('weather_feed');
     my $content = get($weather_feed);
     my $data = XMLin($content);
