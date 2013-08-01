@@ -35,7 +35,10 @@ sub config_set {
 
 sub config_get {
   my $variable = shift;
-  return $DCBSettings::config->{$variable}
+  if ($DCBSettings::config->{$variable}) {
+    return $DCBSettings::config->{$variable};
+  }
+  return 0;
 }
 
 sub config_delete {
@@ -47,6 +50,20 @@ sub config_delete {
     return config_save($yaml);
   }
   return 0;
+}
+
+sub config_reload {
+  my $yaml = config_load();
+  my $conf = $yaml->get('config');
+  foreach my $key (keys %{$conf}) {
+    # Definitely do not override the db.
+    if ($key ne 'db') {
+      if (!exists($DCBSettings::config->{$key}) || $DCBSettings::config->{$key} ne $conf->{$key}) {
+        $DCBSettings::config->{$key} = $conf->{$key};
+      }
+    }
+  }
+  return 1;
 }
 
 sub config_save {

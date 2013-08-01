@@ -61,7 +61,7 @@ if ($@) {
 }
 
 sub main() {
-  $DCBSettings::config->{c} = DCBCommon::common_escape_string("$DCBSettings::config->{cp}");
+  our $c = DCBCommon::common_escape_string("$DCBSettings::config->{cp}");
   odch::register_script_name($DCBSettings::config->{botname});
   odch_sendmessage("","",1,"\$HubName $DCBSettings::config->{topic}");
   my $loadtime = tv_interval ( $start_time ) ;
@@ -85,7 +85,7 @@ sub data_arrival() {
     # Deal with lines of chat
     odch_hooks('line', $DCBUser::userlist->{$name}, $chat);
     # Deal with commands
-    if ($chat =~ /^(?:$DCBSettings::config->{c})(\w+)\s?(.*)/) {
+    if ($chat =~ /^(?:$::c)(\w+)\s?(.*)/) {
       my $command = $1;
       my $params = $2 ? $2 : '';
       # Check the commands registry to see if this command exists prior to attempting to process.

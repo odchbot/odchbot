@@ -28,7 +28,8 @@ sub main {
   my $value = join(' ', @chatarray);
   if ($op) {
     if ($op =~ /^get$/) {
-      if ($message = DCBSettings::config_get($variable)) {
+      if (my $var = DCBSettings::config_get($variable)) {
+        $message = $var;
       }
     }
     elsif ($op =~ /^set$/) {
@@ -45,6 +46,9 @@ sub main {
     elsif ($op =~ /^reload$/) {
       # Straight up reload the config from the conf file and replace whatever
       # is currently there with whatever is in the conf file.
+      if (DCBSettings::config_reload()) {
+        $message = "Config reloaded!";
+      }
     }
   }
   else {

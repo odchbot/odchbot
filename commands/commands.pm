@@ -35,7 +35,7 @@ sub main {
             $alias .= "$_ ";
           }
         }
-      $t->row($DCBSettings::config->{c} . $command->{name}, $command->{description}, $alias);
+      $t->row(DCBCommon::common_escape_string("$DCBSettings::config->{cp}") . $command->{name}, $command->{description}, $alias);
       }
     }
   }
