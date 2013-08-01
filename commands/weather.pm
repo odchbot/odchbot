@@ -37,7 +37,7 @@ sub main {
     my $f = $data->{channel}->{item}->[1]->{'w:forecast'};
 
     my $current = <<EOF;
-      Current Temp.:  $c->{temperature} °C
+      Temperature:  $c->{temperature} °C
       Dew Point:      $c->{dewPoint} °C
       Rel. Humidity:  $c->{humidity} \%
       Wind:           $c->{windSpeed} km/h $c->{windDirection}, gusting to $c->{windGusts} km/h
@@ -47,11 +47,11 @@ EOF
 
     $message .= "Current conditions:\n" . $current;
 
-    $message .= "3-day forecast:\n";
+    $message .= "\n3-day forecast:\n";
     foreach my $day (@{$f}) {
       $message .= <<EOF;
       $day->{day}:
-        Temperatures: $day->{min}–$day->{max} °C
+        Temperatures: $day->{min} - $day->{max} °C
         Conditions:   $day->{description}
 EOF
     }
