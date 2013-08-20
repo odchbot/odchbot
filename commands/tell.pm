@@ -96,7 +96,7 @@ sub tell_handler {
         message  => "$tells",
         user     => $user->{name},
         touser   => '',
-        type     => 4,
+        type     => 2,
       },
       {
         param    => "message",
