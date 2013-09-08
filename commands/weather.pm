@@ -51,7 +51,7 @@ EOF
     foreach my $day (@{$f}) {
       $message .= <<EOF;
       $day->{day}:
-        Temperatures: $day->{min} - $day->{max} °C
+        Temperatures: $day->{min}–$day->{max} °C
         Conditions:   $day->{description}
 EOF
     }
