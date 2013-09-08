@@ -6,3 +6,5 @@ permissions:
  - AUTHENTICATED
  - OPERATOR
  - ADMINISTRATOR
+hooks:
+ - line

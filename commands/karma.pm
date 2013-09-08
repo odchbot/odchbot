@@ -37,4 +37,25 @@ sub main {
   return @return;
 }
 
+sub line {
+  my $command = shift;
+  my $user = shift;
+  my $chat = shift;
+  my @return = ();
+
+  if ($chat =~ /(\S+)(\+\+)(\s.*)?$/ || $chat =~ /(\w+)(--)(\s.*)?$/) {
+    @return = (
+      {
+        param    => "message",
+        message  => "$2 karma assigned to $1",
+        user     => $user->{name},
+        fromuser => '',
+        type     => 2,
+      },
+    );
+  }
+
+  return @return;
+}
+
 1;
