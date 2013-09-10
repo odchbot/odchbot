@@ -12,8 +12,6 @@ use Exporter;
 our @ISA = qw( Exporter );
 our @EXPORT = qw( db_insert db_select db_update db_delete db_do );
 
-use Data::Dumper;
-
 use FindBin;
 use lib "$FindBin::Bin";
 use DCBSettings;

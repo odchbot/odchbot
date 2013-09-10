@@ -7,7 +7,6 @@ use lib "$FindBin::Bin/..";
 use DCBCommon;
 use DCBUser;
 use DCBDatabase;
-use Data::Dumper;
 
 sub schema {
   my %schema = (

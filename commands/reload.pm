@@ -6,7 +6,6 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin/..";
 use DCBCommon;
-use Data::Dumper;
 
 sub main {
   my $command = shift;

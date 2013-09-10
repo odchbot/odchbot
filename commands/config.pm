@@ -8,8 +8,6 @@ use Switch;
 use YAML::AppConfig;
 use DCBSettings;
 
-use Data::Dumper;
-
 sub main {
   my $command = shift;
   my $user = shift;

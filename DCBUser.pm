@@ -9,8 +9,6 @@ use Exporter;
 our @ISA= qw(Exporter);
 our @EXPORT = qw(user_init user_load user_load_by_name user_check_errors user_access user_permissions user_permissions_inherit user_connect user_disconnect);
 
-use Data::Dumper;
-
 use constant PERMISSIONS => {
   OFFLINE        => 0,
   KEY_NOT_SENT   => 1,

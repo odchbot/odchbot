@@ -7,8 +7,6 @@ use lib "$FindBin::Bin/..";
 use DCBUser;
 use DCBCommon;
 
-use Data::Dumper;
-
 sub main {
   my $command = shift;
   my $user = shift;

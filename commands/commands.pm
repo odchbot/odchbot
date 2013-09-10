@@ -11,8 +11,6 @@ use DCBCommon;
 use DCBSettings;
 use DCBUser;
 
-use Data::Dumper;
-
 sub main {
   my $command = shift;
   my $user = shift;

@@ -16,7 +16,7 @@ our @ISA= qw(Exporter);
 our @EXPORT = qw(registry_rebuild commands_run_command registry_add common_timestamp_time common_timestamp_duration common_format_size);
 use FindBin;
 use lib "$FindBin::Bin";
-use Data::Dumper;
+
 sub new { return bless {}, shift }
 
 sub common_init {

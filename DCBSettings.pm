@@ -5,7 +5,6 @@ use warnings;
 use Cwd 'abs_path';
 use File::Basename;
 use YAML::AppConfig;
-use Data::Dumper;
 
 use constant CONFIGFILE => 'odchbot.yml';
 
