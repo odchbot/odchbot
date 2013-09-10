@@ -4,5 +4,21 @@ perl:
   - "5.14"
   - "5.12"
   - "5.10"
+before_install:
+  - cpanm Cwd
+  - cpanm DateTime
+  - cpanm DateTime::Format
+  - cpanm DateTime::Format::Duration
+  - cpanm DBI
+  - cpanm Exporter
+  - cpanm Switch
+  - cpanm Log::Log4perl 
+  - cpanm Module::Load
+  - cpanm Number::Bytes::Human
+  - cpanm SQL::Abstract
+  - cpanm SQL::Abstract::Limit
+  - cpanm Storable
+  - cpanm Text::Tabs
+  - cpanm YAML::AppConfig
 install: true
 script: "perl ./odchbot.pl"
