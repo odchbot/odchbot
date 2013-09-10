@@ -1,4 +1,4 @@
-ODCHBot
+ODCHBot [![Build Status](https://travis-ci.org/odchbot/odchbot.png?branch=v3)](https://travis-ci.org/odchbot/odchbot)
 =======
 
 ODCHBot is a bot written in Perl to provide additional features for [OpenDCHub](http://opendchub.sourceforge.net/).
