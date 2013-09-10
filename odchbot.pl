@@ -77,21 +77,21 @@ sub data_arrival() {
     my $password = $1;
   }
   elsif ($data =~ /^\$Search/) {
-    # odch_hooks('search', $DCBUser::userlist->{$name}, $data);
+    # odch_hooks('search', $DCBUser::userlist->{lc($name)}, $data);
     $DCBCommon::COMMON->{stats}->{hubstats}->{searches}++;
   }
   elsif ($data =~ /^\<\Q$name\E\>\s(.*)\|/) {
     my $chat = $1;
     # Deal with lines of chat
-    odch_hooks('line', $DCBUser::userlist->{$name}, $chat);
+    odch_hooks('line', $DCBUser::userlist->{lc($name)}, $chat);
     # Deal with commands
     if ($chat =~ /^(?:$::c)(\w+)\s?(.*)/) {
       my $command = $1;
       my $params = $2 ? $2 : '';
       # Check the commands registry to see if this command exists prior to attempting to process.
       if ($DCBCommon::registry->{commands}->{$command}) {
-        if (user_access($DCBUser::userlist->{$name}, $DCBCommon::registry->{commands}->{$command}->{permissions})) {
-          my @return = DCBCommon::commands_run_command($DCBCommon::registry->{commands}->{$command}, 'main', $DCBUser::userlist->{$name}, $params);
+        if (user_access($DCBUser::userlist->{lc($name)}, $DCBCommon::registry->{commands}->{$command}->{permissions})) {
+          my @return = DCBCommon::commands_run_command($DCBCommon::registry->{commands}->{$command}, 'main', $DCBUser::userlist->{lc($name)}, $params);
           odch_respond(@return);
         }
       }
@@ -102,7 +102,7 @@ sub data_arrival() {
     my $touser = $1;
     my $chat = $2;
     my @params = ($touser, $chat);
-    odch_hooks('pm', $DCBUser::userlist->{$name}, \@params);
+    odch_hooks('pm', $DCBUser::userlist->{lc($name)}, \@params);
   }
 }
 
@@ -169,7 +169,7 @@ sub odch_login() {
   user_connect($user);
 
   # if it's all ok then add to the userlist - should this happen in user module?
-  $DCBUser::userlist->{$user->{name}} = $user;
+  $DCBUser::userlist->{lc($user->{name})} = $user;
   $DCBCommon::COMMON->{stats}->{hubstats}->{connections}++;
   $DCBCommon::COMMON->{stats}->{hubstats}->{total_share} = odch_get('variable', 'total_share');
   $DCBCommon::COMMON->{stats}->{hubstats}->{number_users} = odch::count_users();
@@ -179,7 +179,7 @@ sub odch_login() {
 
 sub user_disconnected() {
   my ($name) = @_;
-  my $user = $DCBUser::userlist->{$name};
+  my $user = $DCBUser::userlist->{lc($name)};
   $user->{disconnect_time} = time();
   user_disconnect($user);
   odch_hooks('logout', $user);
@@ -315,7 +315,7 @@ sub odch_sendmessage {
 sub odch_sendtoops() {
   my ($botname, $message) = @_;
   foreach (split(/\s+/, odch_get('user_list'))) {
-    if (user_access($DCBUser::userlist->{$_}, ($DCBUser::PERMISSIONS->{ADMINISTRATOR} | $DCBUser::PERMISSIONS->{OPERATOR}))) {
+    if (user_access($DCBUser::userlist->{lc($_)}, ($DCBUser::PERMISSIONS->{ADMINISTRATOR} | $DCBUser::PERMISSIONS->{OPERATOR}))) {
       odch_sendmessage("$_", "", "8", "$message");
     }
   }
@@ -324,7 +324,7 @@ sub odch_sendtoops() {
 sub odch_sendtoadmins() {
   my ($botname, $message) = @_;
   foreach (split(/\s+/, odch_get('user_list'))) {
-    if (user_access($DCBUser::userlist->{$_}, ($DCBUser::PERMISSIONS->{ADMINISTRATOR}))) {
+    if (user_access($DCBUser::userlist->{lc($_)}, ($DCBUser::PERMISSIONS->{ADMINISTRATOR}))) {
       odch_sendmessage("$_", "", "8", "$message");
     }
   }

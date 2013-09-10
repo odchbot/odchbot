@@ -174,7 +174,7 @@ The `$user` object of the user calling the command is provided to all commands a
       'client' => '<RAWRDC++ V:v3,M:P,H:1/3/3,S:7>',
     };
 
-The properties provided may be accessed by `$user->{$property_name}`. If the name is required to report back to the user one may use `$user->{'name'}`.
+The properties provided may be accessed by `$user->{$property_name}`. If the name is required to report back to the user one may use `$user->{'name'}`. If a user is required to be looked up on the ```$userlist``` the user information may be located with ```DCBUser::userlist->{lc($name)}```. It's important to ensure the name is lowercased otherwise no information will be returned.
 
 
 Returns from commands

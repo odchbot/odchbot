@@ -18,7 +18,7 @@ sub main {
 
   # Check user permissions to determine what we should return.
   my @chatarray = split(/\s+/, $chat);
-  my $info_user = @chatarray ? shift(@chatarray) : $user->{'name'};
+  my $info_user = @chatarray ? lc(shift(@chatarray)) : lc($user->{'name'});
   my $message = DCBSettings::config_get('no_perms');
 
   my $target = exists($DCBUser::userlist->{$info_user}) ? $DCBUser::userlist->{$info_user} : '';

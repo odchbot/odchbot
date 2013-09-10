@@ -45,7 +45,7 @@ sub main {
     $botmessage = "You must specify parameters with this command!";
   }
   else {
-    my $victim = @chatarray ? $DCBUser::userlist->{shift(@chatarray)} : '';
+    my $victim = @chatarray ? $DCBUser::userlist->{lc(shift(@chatarray))} : '';
     my $bantime = @chatarray ? shift(@chatarray) : '';
     if ($bantime =~ /^\d+([s|m|h|d|w|y])?$/) {
       $bantime = ban_calculate_ban_time($bantime);

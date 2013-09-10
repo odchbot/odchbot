@@ -34,14 +34,14 @@ sub user_init() {
   our $userlist = ();
   my $userh = DCBDatabase::db_select('users');
   while (my $user = $userh->fetchrow_hashref()) {
-    $userlist->{$user->{name}} = $user;
+    $userlist->{lc($user->{name})} = $user;
   }
 }
 
 # Whenever we're dealing with logins or logouts we need the user data from the database.
 sub user_load_by_name($) {
   my $name = shift;
-  my %where = ('name' => $name);
+  my %where = ('name' => { -like => [$name] });
   my @fields = ('*');
   my $userh = DCBDatabase::db_select('users', \@fields, \%where);
 

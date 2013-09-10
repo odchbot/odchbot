@@ -9,7 +9,6 @@ use Scalar::Util qw(looks_like_number);
 use DCBSettings;
 use DCBDatabase;
 use DCBUser;
-use Data::Dumper;
 
 sub schema {
   my %schema = (
@@ -32,6 +31,7 @@ sub main {
 
   my %winners = ();
   foreach my $this_user (keys %{$DCBUser::userlist}) {
+    $this_user = lc($this_user);
     if ($DCBUser::userlist->{$this_user}->{'join_time'}) {
       if ($DCBUser::userlist->{$this_user}->{'connect_time'} > $DCBUser::userlist->{$this_user}->{'disconnect_time'}) {
         $winners{$this_user} = $DCBUser::userlist->{$this_user}->{'connect_time'};

@@ -11,7 +11,7 @@ sub main {
   my $command = shift;
   my $user = shift;
   my @chatarray = split(/\s+/, shift);
-  my $victim = @chatarray ? $DCBUser::userlist->{shift(@chatarray)} : '';
+  my $victim = @chatarray ? $DCBUser::userlist->{lc(shift(@chatarray))} : '';
   my $kickmessage = @chatarray ? join(' ', @chatarray) : DCBSettings::config_get('default_kick');
   my $botmessage = "$user->{'name'} is kicking $victim->{'name'} because $kickmessage";
   my @return = ();

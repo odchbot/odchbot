@@ -11,7 +11,7 @@ sub main {
   my $command = shift;
   my $user = shift;
   my @chatarray = split(/\s+/, shift);
-  my $victim = @chatarray ? $DCBUser::userlist->{shift(@chatarray)} : '';
+  my $victim = @chatarray ? $DCBUser::userlist->{lc(shift(@chatarray))} : '';
   my $botmessage = '';
   my @return = ();
 
