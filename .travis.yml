@@ -7,7 +7,7 @@ perl:
 before_install:
   - cpanm Cwd
   - cpanm DateTime
-  - cpanm DateTime::Format
+  - cpanm DateTime::Duration
   - cpanm DateTime::Format::Duration
   - cpanm DBI
   - cpanm Exporter
