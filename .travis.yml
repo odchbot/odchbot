@@ -1,9 +1,9 @@
 language: perl
 perl:
-  - "5.16"
-  - "5.14"
   - "5.12"
   - "5.10"
+  - "5.8"
+  - "5.5"
 before_install:
   - cpanm Cwd
   - cpanm DateTime
@@ -11,7 +11,7 @@ before_install:
   - cpanm DateTime::Format::Duration
   - cpanm DBI
   - cpanm Exporter
-  - cpanm Switch
+  - cpanm Switch --force
   - cpanm Log::Log4perl 
   - cpanm Module::Load
   - cpanm Number::Bytes::Human
