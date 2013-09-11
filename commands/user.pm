@@ -15,6 +15,7 @@ sub postlogin {
   my $user = shift;
   my @return = ();
   my $hubname = DCBSettings::config_get('hubname');
+  my $topic = DCBSettings::config_get('topic');
   if ($user->{new}) {
     @return = (
       {
@@ -30,7 +31,7 @@ sub postlogin {
     @return = (
       {
         param    => "message",
-        message  => "Welcome back to $hubname $user->{name}",
+        message  => "Welcome back to $hubname $user->{name}\nThe current topic is: $topic",
         user     => $user->{name},
         fromuser   => '',
         type     => 2,
