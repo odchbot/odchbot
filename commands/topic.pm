@@ -41,11 +41,11 @@ sub topic_return_topic {
   my $user = shift;
   $type ||= 1;
   my $topic = DCBSettings::config_get('topic');
-
+  my $hubname = DCBSettings::config_get('hubname');
   my @return = (
     {
       param    => "message",
-      message  => "\$HubName $topic",
+      message  => "Current topic for $hubname - $topic",
       touser   => '',
       user     => $user ? $user->{'name'} : '',
       type     => $type,
