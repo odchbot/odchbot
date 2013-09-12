@@ -280,7 +280,7 @@ sub odch_sendmessage {
   $message =~ s/\r?\n/\r\n/g;
   $message =~ s/\|/&#124;/g;
   $message = expand($message);
-  if ($message && $type) {
+  if ($message && $type && exists &odch::data_to_all) {
     my $botname = $DCBSettings::config->{botname};
 
     switch ($type) {
@@ -345,7 +345,5 @@ sub odch_debug() {
 }
 
 # Additional subroutine and exit to allow exit 0 and happy travis-ci
-sub odch::data_to_all() {
-}
 
 exit 0;
