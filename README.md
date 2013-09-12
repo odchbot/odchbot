@@ -52,7 +52,6 @@ The commands packaged with the bot require the following perl modules:
 - Scalar::Util
 - String::Random
 - Sys::Hostname
-- Text::SimpleTable::AutoWidth
 - XML::Simple
 
 Installing Perl Modules
