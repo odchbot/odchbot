@@ -41,11 +41,12 @@ sub topic_return_topic {
   my $user = shift;
   $type ||= 1;
   my $topic = DCBSettings::config_get('topic');
+  my $message = ($type == 1 || $type == 11) ? "\$HubName $topic" : "Hub topic: $topic";
 
   my @return = (
     {
       param    => "message",
-      message  => "\$HubName $topic",
+      message  => $message,
       touser   => '',
       user     => $user ? $user->{'name'} : '',
       type     => $type,
@@ -57,7 +58,9 @@ sub topic_return_topic {
 sub postlogin {
   my $command = shift;
   my $user = shift;
-  return topic_return_topic(11, $user);
+  my @return = topic_return_topic(11, $user);
+  push (@return, topic_return_topic(2, $user));
+  return @return;
 }
 
 1;
