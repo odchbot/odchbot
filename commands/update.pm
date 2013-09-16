@@ -11,7 +11,7 @@ sub main {
   my $command = shift;
   my $user = shift;
   my $output = '';
-  $output = capture("cd $DCBSettings::cwd ; git pull origin $DCBSettings::config->{version}");
+  $output = capture("cd $DCBSettings::cwd ; git pull origin $DCBSettings::config->{version} ; " . 'git log @{1}..  --oneline');
   chomp($output);
   my @return = ();
 
