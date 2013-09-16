@@ -45,7 +45,9 @@ sub main {
     $botmessage = "You must specify parameters with this command!";
   }
   else {
-    my $victim = @chatarray ? $DCBUser::userlist->{lc(shift(@chatarray))} : '';
+    my $handler = DCBSettings::config_get('ban_handler');
+    my $victimname  = shift(@chatarray);
+    my $victim = $victimname ? $DCBUser::userlist->{lc($victimname)} : '';
     my $bantime = @chatarray ? shift(@chatarray) : '';
     if ($bantime =~ /^\d+([s|m|h|d|w|y])?$/) {
       $bantime = ban_calculate_ban_time($bantime);
@@ -55,23 +57,26 @@ sub main {
     }
     my $unbantime = DCBCommon::common_timestamp_time(time() + $bantime);
     my $banmessage = @chatarray ? join(' ', @chatarray) : DCBSettings::config_get('tban_default_ban_message');
-    $botmessage = "$user->{'name'} is banning $victim->{'name'} until $unbantime because: $banmessage";
+
+    # if we're not using the bot for a ban handler we have to assign make their name $user->{name}
+    $victim->{name} = ($handler !~ 'bot') ? $victimname : $victim->{name};
 
     # Check that the victim is actually a user
-    if ($victim) {
+    if ($victim->{uid} || $handler !~ 'bot') {
+      $botmessage = "$user->{'name'} is banning $victimname until $unbantime because: $banmessage";
       # If the user is lower permission than the victim, make the kick fail
       if ($user->{'permission'} >= $victim->{'permission'}) {
         @return = (
           {
             param    => "message",
-            message  => "You are being banned by $user->{'name'} until $unbantime because: " . $banmessage,
+            message  => $botmessage,
             user     => $victim->{name},
             touser   => '',
             type     => 8,
           },
           {
             param    => "message",
-            message  => "You are being banned by $user->{'name'} until $unbantime because: " . $banmessage,
+            message  => $botmessage,
             user     => $victim->{name},
             touser   => '',
             type     => 2,
@@ -90,7 +95,7 @@ sub main {
             user     => $user,
           },
         );
-        if (DCBSettings::config_get('ban_handler') =~ 'bot') {
+        if ($handler =~ 'bot') {
           # We handle the ban in the bot rather than allow ODCH to handle
           my $expire = $bantime == '-1' ? '-1' : time() + $bantime;
           my %fields = (
