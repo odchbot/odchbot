@@ -49,8 +49,24 @@ sub main {
     my $victimname  = shift(@chatarray);
     my $victim = $victimname ? $DCBUser::userlist->{lc($victimname)} : '';
     my $bantime = @chatarray ? shift(@chatarray) : '';
+    # The bot chokes when the bantime is too large so we need to
+    # limit the length to ensure it isn't too big.
     if ($bantime =~ /^\d+([s|m|h|d|w|y])?$/) {
-      $bantime = ban_calculate_ban_time($bantime);
+      if (length(scalar($bantime)) >= 5) {
+        @return = (
+          {
+            param    => "message",
+            message  => 'Excessive bantime, use less digits.',
+            user     => '',
+            touser   => '',
+            type     => 4,
+          },
+        );
+        return @return;
+      }
+      else {
+        $bantime = ban_calculate_ban_time($bantime);
+      }
     }
     else {
       $bantime = DCBSettings::config_get('tban_default_ban_time');
