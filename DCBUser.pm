@@ -138,7 +138,7 @@ sub user_check_errors($) {
   my $user = shift;
   my @errors = ();
 
-  if ($user->{'permission'} == 1 && !$DCBSettings::config->{allow_anon}) {
+  if ($user->{'permission'} <= 4 && !$DCBSettings::config->{allow_anon}) {
     push(@errors, "Registered users only");
   }
   my @name_errors = user_invalid_name($user->{'name'});
