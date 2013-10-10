@@ -208,7 +208,7 @@ sub common_timestamp_duration {
   my $now = DateTime->now();
   my $dur = $now->subtract_datetime($dt);
   my $format = DateTime::Format::Duration->new(
-    pattern => '%m months, %e days, %l hours, %M minutes, %S seconds'
+    pattern => '%Y years, %m months, %e days, %l hours, %M minutes, %S seconds'
   );
   $format->set_normalising('true');
   return $format->format_duration($dur);
