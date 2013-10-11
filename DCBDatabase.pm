@@ -164,7 +164,7 @@ sub db_do( $ ) {
     or die("Unable to complete query: $DBI::errstr");
 }
 
-sub db_execute( $ ) {
+sub db_execute {
   my ( $stmt, @bind ) = @_;
   my $sth = $DCBDatabase::dbh->prepare($stmt)
     or die "Couldn't prepare statement: " . $DCBDatabase::dbh->errstr;
