@@ -13,7 +13,8 @@ before_install:
   - cpanm DBI
   - cpanm Exporter
   - cpanm Switch --force
-  - cpanm Log::Log4perl 
+  - cpanm Log::Log4perl
+  - cpanm Mail::Sendmail
   - cpanm Module::Load
   - cpanm Number::Bytes::Human
   - cpanm SQL::Abstract
