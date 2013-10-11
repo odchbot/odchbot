@@ -69,7 +69,7 @@ sub main {
       message  => "$message",
       user     => $user->{name},
       touser   => '',
-      type     => 4,
+      type     => 2,
     },
   );
   return @return;
