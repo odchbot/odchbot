@@ -32,15 +32,19 @@ sub schema {
 }
 
 sub init {
-  # Record when the hub started and insert bot information as the first record so it has a UID
-  my %fields = ( 'time' => time(), number_users => 0, total_share => 0, connections => 0, disconnections => 0, searches => 0 );
-  DCBDatabase::db_insert( 'stats', \%fields );
-
   my %where = ();
   my @fields = ('*');
   my $order = {-desc => 'sid'};
   my $statsh = DCBDatabase::db_select('stats', \@fields, \%where, $order);
-  $DCBCommon::COMMON->{stats}->{hubstats} = $statsh->fetchrow_hashref();
+
+  my $stats = $statsh->fetchrow_hashref();
+  if (!$stats) {
+    my %fields = ( 'time' => time(), number_users => 0, total_share => 0, connections => 0, disconnections => 0, searches => 0 );
+    DCBDatabase::db_insert( 'stats', \%fields );
+    $stats = \%fields;
+  }
+
+  $DCBCommon::COMMON->{stats}->{hubstats} = $stats;
 }
 
 sub main {
@@ -50,15 +54,14 @@ sub main {
 
   my @return = ();
 
-  my $message = "Hub Stats:
-  'sid' => $DCBCommon::COMMON->{stats}->hubstats}->{sid},
-  'disconnections' => $DCBCommon::COMMON->{stats}->{hubstats}->{disconnections},
-  'total_share' => $DCBCommon::COMMON->{stats}->{hubstats}->{total_share},
-  'connections' => $DCBCommon::COMMON->{stats}->{hubstats}->{connections},
-  'time' => $DCBCommon::COMMON->{stats}->{hubstats}->{time},
-  'number_users' => $DCBCommon::COMMON->{stats}->{hubstats}->{number_users},
-  'searches' => $$DCBCommon::COMMON->{stats}->{hubstats}->{searches},
-  ";
+  my $message = "Hub Stats at " . DCBCommon::common_timestamp_time($DCBCommon::COMMON->{stats}->{hubstats}->{time}) . "\n";
+  $message .= "Connections => $DCBCommon::COMMON->{stats}->{hubstats}->{connections}\n";
+  $message .= "Disconnections => $DCBCommon::COMMON->{stats}->{hubstats}->{disconnections}\n";
+  $message .= "Total Share => " . DCBCommon::common_format_size($DCBCommon::COMMON->{stats}->{hubstats}->{total_share}) . "\n";
+  $message .= "User Number => $DCBCommon::COMMON->{stats}->{hubstats}->{number_users}\n";
+  $message .= "Searches => $DCBCommon::COMMON->{stats}->{hubstats}->{searches}\n";
+
+  # TODO add in historical high and low data
 
   @return = (
     {
