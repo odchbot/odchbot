@@ -22,4 +22,5 @@ before_install:
   - cpanm Text::Tabs
   - cpanm YAML::AppConfig
 install: true
+before_script: "perl ./odchbot.test"
 script: "perl ./odchbot.pl"
