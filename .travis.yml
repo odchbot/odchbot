@@ -12,7 +12,7 @@ before_install:
   - cpanm DateTime::Format::Duration
   - cpanm DBI
   - cpanm Exporter
-  - cpanm Switch --force
+  - cpanm IPC::System::Simple
   - cpanm Log::Log4perl
   - cpanm Mail::Sendmail
   - cpanm Module::Load
@@ -20,6 +20,7 @@ before_install:
   - cpanm SQL::Abstract
   - cpanm SQL::Abstract::Limit
   - cpanm Storable
+  - cpanm Switch --force
   - cpanm Text::Tabs
   - cpanm YAML::AppConfig
 install: true
