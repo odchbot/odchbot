@@ -1,7 +1,7 @@
 ODCHBot [![Build Status](https://travis-ci.org/odchbot/odchbot.png?branch=v3)](https://travis-ci.org/odchbot/odchbot)
 =======
 
-ODCHBot is a bot written in Perl to provide additional features for [OpenDCHub](http://opendchub.sourceforge.net/).
+ODCHBot is a bot written in Perl to provide additional features for [OpenDCHub](https://github.com/odchbot/opendchub).
 The core bot provides an easily extensible framework for creating commands that range from simple text response to more complicated HTTP Requests, data storage and calculation.
 
 Recommended version of OpenDCHub to use ODCHBot with is **0.7.16**
