@@ -7,6 +7,6 @@ config:
   botspeed: LAN(T1)
   bottag: OPDC++
   cp: "-"
-  debug: 1
+  debug: 0
   topic: Welcome to OPChat
   version: v1
